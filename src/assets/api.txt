@@ -1,0 +1,5 @@
+https://api.themoviedb.org/3/trending/movie/day?language=en-US
+
+After adding the api_key from TMDb website -
+
+https://api.themoviedb.org/3/trending/movie/day?api_key=559fbfb617337cd9c6b7ff74bfa1051e&language=en-US
