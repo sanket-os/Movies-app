@@ -3,7 +3,7 @@ import MovieCard from './MovieCard'
 import axios from 'axios'
 import Pagination from './Pagination';
 
-function Movies() {
+function Movies({handleAddToWatchlist, watchList}) {
 
     // creating state for movie data 
     // we can use state outside the useEffect fn
@@ -47,7 +47,7 @@ function Movies() {
                 {
 
                     movies.map((movieObj) => (
-                        <MovieCard key={movieObj.id} movieObj={movieObj} />
+                        <MovieCard key={movieObj.id} movieObj={movieObj} handleAddToWatchlist={handleAddToWatchlist} watchList={watchList}/>
                         // <li>{movieObj.title}</li>
                     ))
                 }
