@@ -1,8 +1,27 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
+import genreIds from '../utilities/genre.js'
 
 function Watchlist({watchlist}) {
 
   const [search, setSearch] = useState('');
+  const [genreList, setGenreList] = useState([]);
+  const [currGenre, setCurrGenre] = useState('All Genres');
+
+  useEffect(() => {
+
+    let temp = watchlist.map((movieObject) => {
+      return genreIds[movieObject.genre_ids[0]]
+    })
+
+    temp = new Set(temp);
+
+    setGenreList(["All Genres", ...temp]);
+
+  }, [watchlist])
+
+  function handleFilter(genre) {
+    setCurrGenre(genre);
+  }
 
   function handleSearch(e) {
     setSearch(e.target.value)
@@ -11,9 +30,25 @@ function Watchlist({watchlist}) {
 
   return (
     <>
-      <div className='flex justify-center my-10 w-full'>
 
-        {/* genre filter */}
+      {/* genre filter */}
+
+      <div className='flex justify-center m-4'>
+        {genreList.map((genre) => {
+          return (<div 
+            onClick={() => handleFilter(genre)}
+            className={
+              currGenre == genre
+                ? "mx-4 flex justify-center items-center bg-blue-400 h-[3rem] w-[9rem] text-white font-bold rounded-xl"
+                : "flex justify-center items-center h-[3rem] w-[9rem] bg-gray-400/50 rounded-xl text-white font-bold mx-4"}
+           >
+            {genre}
+          </div>
+          );
+        })}
+      </div>
+
+      <div className='flex justify-center my-10 w-full'>        
 
         {/* search bar */}
         <input className='bg-amber-100 h-[3rem] w-[18rem] outline-none pl-2 border border-slate-600' 
@@ -34,6 +69,13 @@ function Watchlist({watchlist}) {
           </thead>
           <tbody>
             {watchlist.filter((movieObj) => {
+              if (currGenre == 'All Genres') {
+                return true
+              } else {
+                return genreIds[movieObj.genre_ids[0]] == currGenre
+              }
+            })
+            .filter((movieObj) => {
               return movieObj.title.toLowerCase().includes(search.toLowerCase())
             }).map((movieObj) => {
               return <tr className="border-b-2">
@@ -47,8 +89,8 @@ function Watchlist({watchlist}) {
               </td>
               <td className="px-6 py-4 text-center">{movieObj.vote_average}</td>
               <td className="px-6 py-4 text-center">{movieObj.popularity}</td>
-              <td className="px-6 py-4 text-center">Thriller</td>
-              <td className="px-6 py-4 text-center text-red-500 cursor-pointer">Delete Button</td>
+              <td className="px-6 py-4 text-center">{genreIds[movieObj.genre_ids[0]]}</td>
+              <td className="px-6 py-4 text-center text-red-500 cursor-pointer">Delete</td>
             </tr>
                 
             })}

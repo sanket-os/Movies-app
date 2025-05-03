@@ -1,11 +1,16 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { MovieContext } from './MovieContext';
 
-function MovieCard({ movieObj, handleAddToWatchlist, watchList }) {
+
+function MovieCard({ movieObj }) {
+
+let {handleAddToWatchlist, watchlist} = useContext(MovieContext);
+
 
   function doesContain() {
-    for (let i = 0; i < watchList.length; i++) {
-      if (!watchList || !Array.isArray(watchList)) return false;
-      if (watchList[i].id === movieObj.id) {
+    for (let i = 0; i < watchlist.length; i++) {
+      if (!watchlist || !Array.isArray(watchlist)) return false;
+      if (watchlist[i].id === movieObj.id) {
         return true;
       }
     }
@@ -34,7 +39,7 @@ function MovieCard({ movieObj, handleAddToWatchlist, watchList }) {
         )}
       </div>
 
-      {/* remove from wathlist function will be added later */}
+      {/* remove from watchlist function will be added later */}
 
       <h5 className="ml-8 w-[200px] text-center text-xl p-2">{movieObj.title}</h5>
     </div>
